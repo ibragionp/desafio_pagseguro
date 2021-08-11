@@ -1,0 +1,6 @@
+datetime
+pandas
+pymssql
+sqlalchemy
+python-dotenv
+kaggle
