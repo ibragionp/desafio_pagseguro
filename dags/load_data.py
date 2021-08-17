@@ -11,7 +11,7 @@ def load_dataframe_to_database():
     engine = create_engine('mssql+pymssql://{}:{}@{}/{}'.format(environ.get(USERNAME_STR),
                                                                 environ.get(PASSWORD_STR),
                                                                 environ.get(SERVER_STR),
-                                                                environ.get(DATABASE_STR)))                                     
+                                                                environ.get(DATABASE_STR)))                            
     df.to_sql(TABLE_NAME_STR, engine, schema='dbo', if_exists='append', index=False)
 
 def main():

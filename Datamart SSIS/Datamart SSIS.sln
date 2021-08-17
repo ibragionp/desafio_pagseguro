@@ -1,0 +1,22 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 16
+VisualStudioVersion = 16.0.31605.320
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{159641D6-6404-4A2A-AE62-294DE0FE8301}") = "Datamart SSIS", "Datamart SSIS\Datamart SSIS.dtproj", "{3212F439-8C7A-4796-A01C-DD42C5C87C37}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Development|Default = Development|Default
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{3212F439-8C7A-4796-A01C-DD42C5C87C37}.Development|Default.ActiveCfg = Development
+		{3212F439-8C7A-4796-A01C-DD42C5C87C37}.Development|Default.Build.0 = Development
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {6E446A29-A966-49EC-B580-DB122D064DCC}
+	EndGlobalSection
+EndGlobal

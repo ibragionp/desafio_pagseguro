@@ -1,0 +1,1360 @@
+﻿<?xml version="1.0"?>
+<DTS:Executable xmlns:DTS="www.microsoft.com/SqlServer/Dts"
+  DTS:refId="Package"
+  DTS:CreationDate="8/13/2021 9:54:58 AM"
+  DTS:CreationName="Microsoft.Package"
+  DTS:CreatorComputerName="CTNDELLBHDDJF3"
+  DTS:CreatorName="PAMPACOMPASSO\isabella.pereira"
+  DTS:DTSID="{9B46A1F2-9351-4716-AD3B-9C83719AAA45}"
+  DTS:ExecutableType="Microsoft.Package"
+  DTS:LastModifiedProductVersion="15.0.2000.167"
+  DTS:LocaleID="1046"
+  DTS:ObjectName="Package"
+  DTS:PackageType="5"
+  DTS:VersionBuild="18"
+  DTS:VersionGUID="{7D718A2B-F4AA-4F6D-AAD2-673315E3504B}">
+  <DTS:Property
+    DTS:Name="PackageFormatVersion">8</DTS:Property>
+  <DTS:ConnectionManagers>
+    <DTS:ConnectionManager
+      DTS:refId="Package.ConnectionManagers[CTNDELLBHDDJF3\SQLEXPRESS.analytic]"
+      DTS:CreationName="OLEDB"
+      DTS:DTSID="{696E0EC7-D7A0-4538-AF13-40F0D6A3B0AF}"
+      DTS:ObjectName="CTNDELLBHDDJF3\SQLEXPRESS.analytic">
+      <DTS:ObjectData>
+        <DTS:ConnectionManager
+          DTS:ConnectRetryCount="1"
+          DTS:ConnectRetryInterval="5"
+          DTS:ConnectionString="Data Source=CTNDELLBHDDJF3\SQLEXPRESS;Initial Catalog=analytic;Provider=SQLNCLI11.1;Integrated Security=SSPI;Auto Translate=False;" />
+      </DTS:ObjectData>
+    </DTS:ConnectionManager>
+    <DTS:ConnectionManager
+      DTS:refId="Package.ConnectionManagers[CTNDELLBHDDJF3\SQLEXPRESS.db]"
+      DTS:CreationName="OLEDB"
+      DTS:DTSID="{16E60E75-7B45-4DC2-A7BC-1DC35A2B49C0}"
+      DTS:ObjectName="CTNDELLBHDDJF3\SQLEXPRESS.db">
+      <DTS:ObjectData>
+        <DTS:ConnectionManager
+          DTS:ConnectRetryCount="1"
+          DTS:ConnectRetryInterval="5"
+          DTS:ConnectionString="Data Source=CTNDELLBHDDJF3\SQLEXPRESS;Initial Catalog=db;Provider=SQLNCLI11.1;Integrated Security=SSPI;Auto Translate=False;" />
+      </DTS:ObjectData>
+    </DTS:ConnectionManager>
+  </DTS:ConnectionManagers>
+  <DTS:Variables />
+  <DTS:Executables>
+    <DTS:Executable
+      DTS:refId="Package\Load Customer Fact"
+      DTS:CreationName="Microsoft.Pipeline"
+      DTS:Description="Tarefa Fluxo de Dados"
+      DTS:DTSID="{1EE86EE9-FBB5-434D-8A48-EBF963140953}"
+      DTS:ExecutableType="Microsoft.Pipeline"
+      DTS:LocaleID="-1"
+      DTS:ObjectName="Load Customer Fact"
+      DTS:TaskContact="Performs high-performance data extraction, transformation and loading;Microsoft Corporation; Microsoft SQL Server; (C) Microsoft Corporation; All Rights Reserved;http://www.microsoft.com/sql/support/default.asp;1">
+      <DTS:Variables />
+      <DTS:ObjectData>
+        <pipeline
+          version="1">
+          <components>
+            <component
+              refId="Package\Load Customer Fact\Get transactions data"
+              componentClassID="Microsoft.OLEDBSource"
+              contactInfo="Origem OLE DB;Microsoft Corporation; Microsoft SQL Server; (C) Microsoft Corporation; Todos os Direitos Reservados; http://www.microsoft.com/sql/support;7"
+              description="Origem OLE DB"
+              name="Get transactions data"
+              usesDispositions="true"
+              version="7">
+              <properties>
+                <property
+                  dataType="System.Int32"
+                  description="O tempo em segundos antes que um comando expire. Zero indica uma expiração infinita."
+                  name="CommandTimeout">0</property>
+                <property
+                  dataType="System.String"
+                  description="Especifica o nome do objeto de banco de dados usado para abrir um conjunto de linhas."
+                  name="OpenRowset">[dbo].[fact_customer_kpi]</property>
+                <property
+                  dataType="System.String"
+                  description="Especifica a variável que contém o nome do objeto de banco de dados usado para abrir um conjunto de linhas."
+                  name="OpenRowsetVariable"></property>
+                <property
+                  dataType="System.String"
+                  description="O comando SQL a ser executado."
+                  name="SqlCommand"
+                  UITypeEditor="Microsoft.DataTransformationServices.Controls.ModalMultilineStringEditor">SELECT customer AS id_customer, fullDate AS data, CAST(SUM(amount) AS DECIMAL(18,2))  AS tpv, COUNT(DISTINCT id) AS qtd_transacoes
+FROM transactions
+GROUP BY fullDate, customer</property>
+                <property
+                  dataType="System.String"
+                  description="A variável que contém o comando SQL a ser executado."
+                  name="SqlCommandVariable"></property>
+                <property
+                  dataType="System.Int32"
+                  description="Especifica a página de código de coluna a ser usada quando não há informações de página de código disponíveis a partir da fonte de dados."
+                  name="DefaultCodePage">1252</property>
+                <property
+                  dataType="System.Boolean"
+                  description="Forca o uso do valor da propriedade DefaultCodePage durante a descrição dos dados de caractere."
+                  name="AlwaysUseDefaultCodePage">false</property>
+                <property
+                  dataType="System.Int32"
+                  description="Especifica o modo usado para acessar o banco de dados."
+                  name="AccessMode"
+                  typeConverter="AccessMode">2</property>
+                <property
+                  dataType="System.String"
+                  description="Os mapeamentos entre os parâmetros no comando SQL e as variáveis."
+                  name="ParameterMapping"></property>
+              </properties>
+              <connections>
+                <connection
+                  refId="Package\Load Customer Fact\Get transactions data.Connections[OleDbConnection]"
+                  connectionManagerID="Package.ConnectionManagers[CTNDELLBHDDJF3\SQLEXPRESS.db]"
+                  connectionManagerRefId="Package.ConnectionManagers[CTNDELLBHDDJF3\SQLEXPRESS.db]"
+                  description="A conexão de tempo de execução OLE DB usada para acessar o banco de dados."
+                  name="OleDbConnection" />
+              </connections>
+              <outputs>
+                <output
+                  refId="Package\Load Customer Fact\Get transactions data.Outputs[Saída de Origem OLE DB]"
+                  name="Saída de Origem OLE DB">
+                  <outputColumns>
+                    <outputColumn
+                      refId="Package\Load Customer Fact\Get transactions data.Outputs[Saída de Origem OLE DB].Columns[id_customer]"
+                      codePage="1252"
+                      dataType="str"
+                      errorOrTruncationOperation="Conversão"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\Load Customer Fact\Get transactions data.Outputs[Saída de Origem OLE DB].ExternalColumns[id_customer]"
+                      length="30"
+                      lineageId="Package\Load Customer Fact\Get transactions data.Outputs[Saída de Origem OLE DB].Columns[id_customer]"
+                      name="id_customer"
+                      truncationRowDisposition="FailComponent" />
+                    <outputColumn
+                      refId="Package\Load Customer Fact\Get transactions data.Outputs[Saída de Origem OLE DB].Columns[data]"
+                      dataType="dbDate"
+                      errorOrTruncationOperation="Conversão"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\Load Customer Fact\Get transactions data.Outputs[Saída de Origem OLE DB].ExternalColumns[data]"
+                      lineageId="Package\Load Customer Fact\Get transactions data.Outputs[Saída de Origem OLE DB].Columns[data]"
+                      name="data"
+                      truncationRowDisposition="FailComponent" />
+                    <outputColumn
+                      refId="Package\Load Customer Fact\Get transactions data.Outputs[Saída de Origem OLE DB].Columns[tpv]"
+                      dataType="r8"
+                      errorOrTruncationOperation="Conversão"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\Load Customer Fact\Get transactions data.Outputs[Saída de Origem OLE DB].ExternalColumns[tpv]"
+                      lineageId="Package\Load Customer Fact\Get transactions data.Outputs[Saída de Origem OLE DB].Columns[tpv]"
+                      name="tpv"
+                      truncationRowDisposition="FailComponent" />
+                    <outputColumn
+                      refId="Package\Load Customer Fact\Get transactions data.Outputs[Saída de Origem OLE DB].Columns[qtd_transacoes]"
+                      dataType="i4"
+                      errorOrTruncationOperation="Conversão"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\Load Customer Fact\Get transactions data.Outputs[Saída de Origem OLE DB].ExternalColumns[qtd_transacoes]"
+                      lineageId="Package\Load Customer Fact\Get transactions data.Outputs[Saída de Origem OLE DB].Columns[qtd_transacoes]"
+                      name="qtd_transacoes"
+                      truncationRowDisposition="FailComponent" />
+                  </outputColumns>
+                  <externalMetadataColumns
+                    isUsed="True">
+                    <externalMetadataColumn
+                      refId="Package\Load Customer Fact\Get transactions data.Outputs[Saída de Origem OLE DB].ExternalColumns[id_customer]"
+                      codePage="1252"
+                      dataType="str"
+                      length="30"
+                      name="id_customer" />
+                    <externalMetadataColumn
+                      refId="Package\Load Customer Fact\Get transactions data.Outputs[Saída de Origem OLE DB].ExternalColumns[data]"
+                      dataType="dbDate"
+                      name="data" />
+                    <externalMetadataColumn
+                      refId="Package\Load Customer Fact\Get transactions data.Outputs[Saída de Origem OLE DB].ExternalColumns[tpv]"
+                      dataType="numeric"
+                      name="tpv"
+                      precision="18"
+                      scale="2" />
+                    <externalMetadataColumn
+                      refId="Package\Load Customer Fact\Get transactions data.Outputs[Saída de Origem OLE DB].ExternalColumns[qtd_transacoes]"
+                      dataType="i4"
+                      name="qtd_transacoes" />
+                  </externalMetadataColumns>
+                </output>
+                <output
+                  refId="Package\Load Customer Fact\Get transactions data.Outputs[Saída de Erro de Origem OLE DB]"
+                  isErrorOut="true"
+                  name="Saída de Erro de Origem OLE DB">
+                  <outputColumns>
+                    <outputColumn
+                      refId="Package\Load Customer Fact\Get transactions data.Outputs[Saída de Erro de Origem OLE DB].Columns[id_customer]"
+                      codePage="1252"
+                      dataType="str"
+                      length="30"
+                      lineageId="Package\Load Customer Fact\Get transactions data.Outputs[Saída de Erro de Origem OLE DB].Columns[id_customer]"
+                      name="id_customer" />
+                    <outputColumn
+                      refId="Package\Load Customer Fact\Get transactions data.Outputs[Saída de Erro de Origem OLE DB].Columns[data]"
+                      dataType="dbDate"
+                      lineageId="Package\Load Customer Fact\Get transactions data.Outputs[Saída de Erro de Origem OLE DB].Columns[data]"
+                      name="data" />
+                    <outputColumn
+                      refId="Package\Load Customer Fact\Get transactions data.Outputs[Saída de Erro de Origem OLE DB].Columns[tpv]"
+                      dataType="numeric"
+                      lineageId="Package\Load Customer Fact\Get transactions data.Outputs[Saída de Erro de Origem OLE DB].Columns[tpv]"
+                      name="tpv"
+                      precision="18"
+                      scale="2" />
+                    <outputColumn
+                      refId="Package\Load Customer Fact\Get transactions data.Outputs[Saída de Erro de Origem OLE DB].Columns[qtd_transacoes]"
+                      dataType="i4"
+                      lineageId="Package\Load Customer Fact\Get transactions data.Outputs[Saída de Erro de Origem OLE DB].Columns[qtd_transacoes]"
+                      name="qtd_transacoes" />
+                    <outputColumn
+                      refId="Package\Load Customer Fact\Get transactions data.Outputs[Saída de Erro de Origem OLE DB].Columns[ErrorCode]"
+                      dataType="i4"
+                      lineageId="Package\Load Customer Fact\Get transactions data.Outputs[Saída de Erro de Origem OLE DB].Columns[ErrorCode]"
+                      name="ErrorCode"
+                      specialFlags="1" />
+                    <outputColumn
+                      refId="Package\Load Customer Fact\Get transactions data.Outputs[Saída de Erro de Origem OLE DB].Columns[ErrorColumn]"
+                      dataType="i4"
+                      lineageId="Package\Load Customer Fact\Get transactions data.Outputs[Saída de Erro de Origem OLE DB].Columns[ErrorColumn]"
+                      name="ErrorColumn"
+                      specialFlags="2" />
+                  </outputColumns>
+                  <externalMetadataColumns />
+                </output>
+              </outputs>
+            </component>
+            <component
+              refId="Package\Load Customer Fact\Load fact_customer_kpi data"
+              componentClassID="Microsoft.OLEDBDestination"
+              contactInfo="Destino OLE DB;Microsoft Corporation; Microsoft SQL Server; (C) Microsoft Corporation; Todos os Direitos Reservados; http://www.microsoft.com/sql/support;4"
+              description="Destino OLE DB"
+              name="Load fact_customer_kpi data"
+              usesDispositions="true"
+              version="4">
+              <properties>
+                <property
+                  dataType="System.Int32"
+                  description="O tempo em segundos antes que um comando expire. Zero indica uma expiração infinita."
+                  name="CommandTimeout">0</property>
+                <property
+                  dataType="System.String"
+                  description="Especifica o nome do objeto de banco de dados usado para abrir um conjunto de linhas."
+                  name="OpenRowset">[dbo].[fact_customer_kpi]</property>
+                <property
+                  dataType="System.String"
+                  description="Especifica a variável que contém o nome do objeto de banco de dados usado para abrir um conjunto de linhas."
+                  name="OpenRowsetVariable"></property>
+                <property
+                  dataType="System.String"
+                  description="O comando SQL a ser executado."
+                  name="SqlCommand"
+                  UITypeEditor="Microsoft.DataTransformationServices.Controls.ModalMultilineStringEditor"></property>
+                <property
+                  dataType="System.Int32"
+                  description="Especifica a página de código de coluna a ser usada quando não há informações de página de código disponíveis a partir da fonte de dados."
+                  name="DefaultCodePage">1252</property>
+                <property
+                  dataType="System.Boolean"
+                  description="Forca o uso do valor da propriedade DefaultCodePage durante a descrição dos dados de caractere."
+                  name="AlwaysUseDefaultCodePage">false</property>
+                <property
+                  dataType="System.Int32"
+                  description="Especifica o modo usado para acessar o banco de dados."
+                  name="AccessMode"
+                  typeConverter="AccessMode">3</property>
+                <property
+                  dataType="System.Boolean"
+                  description="Indica se os valores fornecidos para colunas de identidade serão copiados no destino. Se false, os valores para colunas de identidade serão gerados automaticamente no destino. Aplicável apenas se o carregamento rápido estiver ativado."
+                  name="FastLoadKeepIdentity">false</property>
+                <property
+                  dataType="System.Boolean"
+                  description="Indica se as colunas que contêm null terão null inserido no destino. Se false, as colunas que contêm null terão seus valores padrão inseridos no destino. Aplicável apenas se o carregamento rápido estiver ativado."
+                  name="FastLoadKeepNulls">false</property>
+                <property
+                  dataType="System.String"
+                  description="Especifica as opções a serem usadas com o carregamento rápido. Aplicável apenas se o carregamento rápido estiver ativado."
+                  name="FastLoadOptions">CHECK_CONSTRAINTS</property>
+                <property
+                  dataType="System.Int32"
+                  description="Especifica quando confirmações são emitidas durante a inserção de dados. Um valor de 0 especifica que uma confirmação será emitida ao final da inserção de dados. Aplicável somente se o carregamento rápido estiver ativado."
+                  name="FastLoadMaxInsertCommitSize">2147483647</property>
+              </properties>
+              <connections>
+                <connection
+                  refId="Package\Load Customer Fact\Load fact_customer_kpi data.Connections[OleDbConnection]"
+                  connectionManagerID="Package.ConnectionManagers[CTNDELLBHDDJF3\SQLEXPRESS.analytic]"
+                  connectionManagerRefId="Package.ConnectionManagers[CTNDELLBHDDJF3\SQLEXPRESS.analytic]"
+                  description="A conexão de tempo de execução OLE DB usada para acessar o banco de dados."
+                  name="OleDbConnection" />
+              </connections>
+              <inputs>
+                <input
+                  refId="Package\Load Customer Fact\Load fact_customer_kpi data.Inputs[Entrada de Destino OLE DB]"
+                  errorOrTruncationOperation="Inserir"
+                  errorRowDisposition="FailComponent"
+                  hasSideEffects="true"
+                  name="Entrada de Destino OLE DB">
+                  <inputColumns>
+                    <inputColumn
+                      refId="Package\Load Customer Fact\Load fact_customer_kpi data.Inputs[Entrada de Destino OLE DB].Columns[id_customer]"
+                      cachedCodepage="1252"
+                      cachedDataType="str"
+                      cachedLength="30"
+                      cachedName="id_customer"
+                      externalMetadataColumnId="Package\Load Customer Fact\Load fact_customer_kpi data.Inputs[Entrada de Destino OLE DB].ExternalColumns[id_customer]"
+                      lineageId="Package\Load Customer Fact\Get transactions data.Outputs[Saída de Origem OLE DB].Columns[id_customer]" />
+                    <inputColumn
+                      refId="Package\Load Customer Fact\Load fact_customer_kpi data.Inputs[Entrada de Destino OLE DB].Columns[data]"
+                      cachedDataType="dbDate"
+                      cachedName="data"
+                      externalMetadataColumnId="Package\Load Customer Fact\Load fact_customer_kpi data.Inputs[Entrada de Destino OLE DB].ExternalColumns[data]"
+                      lineageId="Package\Load Customer Fact\Get transactions data.Outputs[Saída de Origem OLE DB].Columns[data]" />
+                    <inputColumn
+                      refId="Package\Load Customer Fact\Load fact_customer_kpi data.Inputs[Entrada de Destino OLE DB].Columns[tpv]"
+                      cachedDataType="r8"
+                      cachedName="tpv"
+                      externalMetadataColumnId="Package\Load Customer Fact\Load fact_customer_kpi data.Inputs[Entrada de Destino OLE DB].ExternalColumns[tpv]"
+                      lineageId="Package\Load Customer Fact\Get transactions data.Outputs[Saída de Origem OLE DB].Columns[tpv]" />
+                    <inputColumn
+                      refId="Package\Load Customer Fact\Load fact_customer_kpi data.Inputs[Entrada de Destino OLE DB].Columns[qtd_transacoes]"
+                      cachedDataType="i4"
+                      cachedName="qtd_transacoes"
+                      externalMetadataColumnId="Package\Load Customer Fact\Load fact_customer_kpi data.Inputs[Entrada de Destino OLE DB].ExternalColumns[qtd_transacoes]"
+                      lineageId="Package\Load Customer Fact\Get transactions data.Outputs[Saída de Origem OLE DB].Columns[qtd_transacoes]" />
+                  </inputColumns>
+                  <externalMetadataColumns
+                    isUsed="True">
+                    <externalMetadataColumn
+                      refId="Package\Load Customer Fact\Load fact_customer_kpi data.Inputs[Entrada de Destino OLE DB].ExternalColumns[id_customer]"
+                      codePage="1252"
+                      dataType="str"
+                      length="30"
+                      name="id_customer" />
+                    <externalMetadataColumn
+                      refId="Package\Load Customer Fact\Load fact_customer_kpi data.Inputs[Entrada de Destino OLE DB].ExternalColumns[data]"
+                      dataType="dbDate"
+                      name="data" />
+                    <externalMetadataColumn
+                      refId="Package\Load Customer Fact\Load fact_customer_kpi data.Inputs[Entrada de Destino OLE DB].ExternalColumns[tpv]"
+                      dataType="r8"
+                      name="tpv" />
+                    <externalMetadataColumn
+                      refId="Package\Load Customer Fact\Load fact_customer_kpi data.Inputs[Entrada de Destino OLE DB].ExternalColumns[qtd_transacoes]"
+                      dataType="i4"
+                      name="qtd_transacoes" />
+                  </externalMetadataColumns>
+                </input>
+              </inputs>
+              <outputs>
+                <output
+                  refId="Package\Load Customer Fact\Load fact_customer_kpi data.Outputs[Saída de Erro de Destino OLE DB]"
+                  exclusionGroup="1"
+                  isErrorOut="true"
+                  name="Saída de Erro de Destino OLE DB"
+                  synchronousInputId="Package\Load Customer Fact\Load fact_customer_kpi data.Inputs[Entrada de Destino OLE DB]">
+                  <outputColumns>
+                    <outputColumn
+                      refId="Package\Load Customer Fact\Load fact_customer_kpi data.Outputs[Saída de Erro de Destino OLE DB].Columns[ErrorCode]"
+                      dataType="i4"
+                      lineageId="Package\Load Customer Fact\Load fact_customer_kpi data.Outputs[Saída de Erro de Destino OLE DB].Columns[ErrorCode]"
+                      name="ErrorCode"
+                      specialFlags="1" />
+                    <outputColumn
+                      refId="Package\Load Customer Fact\Load fact_customer_kpi data.Outputs[Saída de Erro de Destino OLE DB].Columns[ErrorColumn]"
+                      dataType="i4"
+                      lineageId="Package\Load Customer Fact\Load fact_customer_kpi data.Outputs[Saída de Erro de Destino OLE DB].Columns[ErrorColumn]"
+                      name="ErrorColumn"
+                      specialFlags="2" />
+                  </outputColumns>
+                  <externalMetadataColumns />
+                </output>
+              </outputs>
+            </component>
+          </components>
+          <paths>
+            <path
+              refId="Package\Load Customer Fact.Paths[Saída de Origem OLE DB]"
+              endId="Package\Load Customer Fact\Load fact_customer_kpi data.Inputs[Entrada de Destino OLE DB]"
+              name="Saída de Origem OLE DB"
+              startId="Package\Load Customer Fact\Get transactions data.Outputs[Saída de Origem OLE DB]" />
+          </paths>
+        </pipeline>
+      </DTS:ObjectData>
+    </DTS:Executable>
+    <DTS:Executable
+      DTS:refId="Package\Load Merchant Category Dimension"
+      DTS:CreationName="Microsoft.Pipeline"
+      DTS:Description="Tarefa Fluxo de Dados"
+      DTS:DTSID="{094BF028-2CC0-4118-B015-5F64D4875B2F}"
+      DTS:ExecutableType="Microsoft.Pipeline"
+      DTS:LocaleID="-1"
+      DTS:ObjectName="Load Merchant Category Dimension"
+      DTS:TaskContact="Performs high-performance data extraction, transformation and loading;Microsoft Corporation; Microsoft SQL Server; (C) Microsoft Corporation; All Rights Reserved;http://www.microsoft.com/sql/support/default.asp;1">
+      <DTS:Variables />
+      <DTS:ObjectData>
+        <pipeline
+          version="1">
+          <components>
+            <component
+              refId="Package\Load Merchant Category Dimension\Get transactions data"
+              componentClassID="Microsoft.OLEDBSource"
+              contactInfo="Origem OLE DB;Microsoft Corporation; Microsoft SQL Server; (C) Microsoft Corporation; Todos os Direitos Reservados; http://www.microsoft.com/sql/support;7"
+              description="Origem OLE DB"
+              name="Get transactions data"
+              usesDispositions="true"
+              version="7">
+              <properties>
+                <property
+                  dataType="System.Int32"
+                  description="O tempo em segundos antes que um comando expire. Zero indica uma expiração infinita."
+                  name="CommandTimeout">0</property>
+                <property
+                  dataType="System.String"
+                  description="Especifica o nome do objeto de banco de dados usado para abrir um conjunto de linhas."
+                  name="OpenRowset"></property>
+                <property
+                  dataType="System.String"
+                  description="Especifica a variável que contém o nome do objeto de banco de dados usado para abrir um conjunto de linhas."
+                  name="OpenRowsetVariable"></property>
+                <property
+                  dataType="System.String"
+                  description="O comando SQL a ser executado."
+                  name="SqlCommand"
+                  UITypeEditor="Microsoft.DataTransformationServices.Controls.ModalMultilineStringEditor">SELECT DISTINCT  merchant AS id_merchant, category
+FROM  transactions</property>
+                <property
+                  dataType="System.String"
+                  description="A variável que contém o comando SQL a ser executado."
+                  name="SqlCommandVariable"></property>
+                <property
+                  dataType="System.Int32"
+                  description="Especifica a página de código de coluna a ser usada quando não há informações de página de código disponíveis a partir da fonte de dados."
+                  name="DefaultCodePage">1252</property>
+                <property
+                  dataType="System.Boolean"
+                  description="Forca o uso do valor da propriedade DefaultCodePage durante a descrição dos dados de caractere."
+                  name="AlwaysUseDefaultCodePage">false</property>
+                <property
+                  dataType="System.Int32"
+                  description="Especifica o modo usado para acessar o banco de dados."
+                  name="AccessMode"
+                  typeConverter="AccessMode">2</property>
+                <property
+                  dataType="System.String"
+                  description="Os mapeamentos entre os parâmetros no comando SQL e as variáveis."
+                  name="ParameterMapping"></property>
+              </properties>
+              <connections>
+                <connection
+                  refId="Package\Load Merchant Category Dimension\Get transactions data.Connections[OleDbConnection]"
+                  connectionManagerID="Package.ConnectionManagers[CTNDELLBHDDJF3\SQLEXPRESS.db]"
+                  connectionManagerRefId="Package.ConnectionManagers[CTNDELLBHDDJF3\SQLEXPRESS.db]"
+                  description="A conexão de tempo de execução OLE DB usada para acessar o banco de dados."
+                  name="OleDbConnection" />
+              </connections>
+              <outputs>
+                <output
+                  refId="Package\Load Merchant Category Dimension\Get transactions data.Outputs[Saída de Origem OLE DB]"
+                  name="Saída de Origem OLE DB">
+                  <outputColumns>
+                    <outputColumn
+                      refId="Package\Load Merchant Category Dimension\Get transactions data.Outputs[Saída de Origem OLE DB].Columns[category]"
+                      codePage="1252"
+                      dataType="str"
+                      errorOrTruncationOperation="Conversão"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\Load Merchant Category Dimension\Get transactions data.Outputs[Saída de Origem OLE DB].ExternalColumns[category]"
+                      length="50"
+                      lineageId="Package\Load Merchant Category Dimension\Get transactions data.Outputs[Saída de Origem OLE DB].Columns[category]"
+                      name="category"
+                      truncationRowDisposition="FailComponent" />
+                    <outputColumn
+                      refId="Package\Load Merchant Category Dimension\Get transactions data.Outputs[Saída de Origem OLE DB].Columns[id_merchant]"
+                      codePage="1252"
+                      dataType="str"
+                      errorOrTruncationOperation="Conversão"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\Load Merchant Category Dimension\Get transactions data.Outputs[Saída de Origem OLE DB].ExternalColumns[id_merchant]"
+                      length="50"
+                      lineageId="Package\Load Merchant Category Dimension\Get transactions data.Outputs[Saída de Origem OLE DB].Columns[id_merchant]"
+                      name="id_merchant"
+                      truncationRowDisposition="FailComponent" />
+                  </outputColumns>
+                  <externalMetadataColumns
+                    isUsed="True">
+                    <externalMetadataColumn
+                      refId="Package\Load Merchant Category Dimension\Get transactions data.Outputs[Saída de Origem OLE DB].ExternalColumns[category]"
+                      codePage="1252"
+                      dataType="str"
+                      length="50"
+                      name="category" />
+                    <externalMetadataColumn
+                      refId="Package\Load Merchant Category Dimension\Get transactions data.Outputs[Saída de Origem OLE DB].ExternalColumns[id_merchant]"
+                      codePage="1252"
+                      dataType="str"
+                      length="50"
+                      name="id_merchant" />
+                  </externalMetadataColumns>
+                </output>
+                <output
+                  refId="Package\Load Merchant Category Dimension\Get transactions data.Outputs[Saída de Erro de Origem OLE DB]"
+                  isErrorOut="true"
+                  name="Saída de Erro de Origem OLE DB">
+                  <outputColumns>
+                    <outputColumn
+                      refId="Package\Load Merchant Category Dimension\Get transactions data.Outputs[Saída de Erro de Origem OLE DB].Columns[id_merchant]"
+                      codePage="1252"
+                      dataType="str"
+                      length="50"
+                      lineageId="Package\Load Merchant Category Dimension\Get transactions data.Outputs[Saída de Erro de Origem OLE DB].Columns[id_merchant]"
+                      name="id_merchant" />
+                    <outputColumn
+                      refId="Package\Load Merchant Category Dimension\Get transactions data.Outputs[Saída de Erro de Origem OLE DB].Columns[category]"
+                      codePage="1252"
+                      dataType="str"
+                      length="50"
+                      lineageId="Package\Load Merchant Category Dimension\Get transactions data.Outputs[Saída de Erro de Origem OLE DB].Columns[category]"
+                      name="category" />
+                    <outputColumn
+                      refId="Package\Load Merchant Category Dimension\Get transactions data.Outputs[Saída de Erro de Origem OLE DB].Columns[ErrorCode]"
+                      dataType="i4"
+                      lineageId="Package\Load Merchant Category Dimension\Get transactions data.Outputs[Saída de Erro de Origem OLE DB].Columns[ErrorCode]"
+                      name="ErrorCode"
+                      specialFlags="1" />
+                    <outputColumn
+                      refId="Package\Load Merchant Category Dimension\Get transactions data.Outputs[Saída de Erro de Origem OLE DB].Columns[ErrorColumn]"
+                      dataType="i4"
+                      lineageId="Package\Load Merchant Category Dimension\Get transactions data.Outputs[Saída de Erro de Origem OLE DB].Columns[ErrorColumn]"
+                      name="ErrorColumn"
+                      specialFlags="2" />
+                  </outputColumns>
+                  <externalMetadataColumns />
+                </output>
+              </outputs>
+            </component>
+            <component
+              refId="Package\Load Merchant Category Dimension\Load dim_merchant_category data"
+              componentClassID="Microsoft.OLEDBDestination"
+              contactInfo="Destino OLE DB;Microsoft Corporation; Microsoft SQL Server; (C) Microsoft Corporation; Todos os Direitos Reservados; http://www.microsoft.com/sql/support;4"
+              description="Destino OLE DB"
+              name="Load dim_merchant_category data"
+              usesDispositions="true"
+              version="4">
+              <properties>
+                <property
+                  dataType="System.Int32"
+                  description="O tempo em segundos antes que um comando expire. Zero indica uma expiração infinita."
+                  name="CommandTimeout">0</property>
+                <property
+                  dataType="System.String"
+                  description="Especifica o nome do objeto de banco de dados usado para abrir um conjunto de linhas."
+                  name="OpenRowset">[dbo].[dim_merchant_category]</property>
+                <property
+                  dataType="System.String"
+                  description="Especifica a variável que contém o nome do objeto de banco de dados usado para abrir um conjunto de linhas."
+                  name="OpenRowsetVariable"></property>
+                <property
+                  dataType="System.String"
+                  description="O comando SQL a ser executado."
+                  name="SqlCommand"
+                  UITypeEditor="Microsoft.DataTransformationServices.Controls.ModalMultilineStringEditor"></property>
+                <property
+                  dataType="System.Int32"
+                  description="Especifica a página de código de coluna a ser usada quando não há informações de página de código disponíveis a partir da fonte de dados."
+                  name="DefaultCodePage">1252</property>
+                <property
+                  dataType="System.Boolean"
+                  description="Forca o uso do valor da propriedade DefaultCodePage durante a descrição dos dados de caractere."
+                  name="AlwaysUseDefaultCodePage">false</property>
+                <property
+                  dataType="System.Int32"
+                  description="Especifica o modo usado para acessar o banco de dados."
+                  name="AccessMode"
+                  typeConverter="AccessMode">3</property>
+                <property
+                  dataType="System.Boolean"
+                  description="Indica se os valores fornecidos para colunas de identidade serão copiados no destino. Se false, os valores para colunas de identidade serão gerados automaticamente no destino. Aplicável apenas se o carregamento rápido estiver ativado."
+                  name="FastLoadKeepIdentity">false</property>
+                <property
+                  dataType="System.Boolean"
+                  description="Indica se as colunas que contêm null terão null inserido no destino. Se false, as colunas que contêm null terão seus valores padrão inseridos no destino. Aplicável apenas se o carregamento rápido estiver ativado."
+                  name="FastLoadKeepNulls">false</property>
+                <property
+                  dataType="System.String"
+                  description="Especifica as opções a serem usadas com o carregamento rápido. Aplicável apenas se o carregamento rápido estiver ativado."
+                  name="FastLoadOptions">TABLOCK,CHECK_CONSTRAINTS</property>
+                <property
+                  dataType="System.Int32"
+                  description="Especifica quando confirmações são emitidas durante a inserção de dados. Um valor de 0 especifica que uma confirmação será emitida ao final da inserção de dados. Aplicável somente se o carregamento rápido estiver ativado."
+                  name="FastLoadMaxInsertCommitSize">2147483647</property>
+              </properties>
+              <connections>
+                <connection
+                  refId="Package\Load Merchant Category Dimension\Load dim_merchant_category data.Connections[OleDbConnection]"
+                  connectionManagerID="Package.ConnectionManagers[CTNDELLBHDDJF3\SQLEXPRESS.analytic]"
+                  connectionManagerRefId="Package.ConnectionManagers[CTNDELLBHDDJF3\SQLEXPRESS.analytic]"
+                  description="A conexão de tempo de execução OLE DB usada para acessar o banco de dados."
+                  name="OleDbConnection" />
+              </connections>
+              <inputs>
+                <input
+                  refId="Package\Load Merchant Category Dimension\Load dim_merchant_category data.Inputs[Entrada de Destino OLE DB]"
+                  errorOrTruncationOperation="Inserir"
+                  errorRowDisposition="FailComponent"
+                  hasSideEffects="true"
+                  name="Entrada de Destino OLE DB">
+                  <inputColumns>
+                    <inputColumn
+                      refId="Package\Load Merchant Category Dimension\Load dim_merchant_category data.Inputs[Entrada de Destino OLE DB].Columns[category]"
+                      cachedCodepage="1252"
+                      cachedDataType="str"
+                      cachedLength="50"
+                      cachedName="category"
+                      externalMetadataColumnId="Package\Load Merchant Category Dimension\Load dim_merchant_category data.Inputs[Entrada de Destino OLE DB].ExternalColumns[category]"
+                      lineageId="Package\Load Merchant Category Dimension\Get transactions data.Outputs[Saída de Origem OLE DB].Columns[category]" />
+                    <inputColumn
+                      refId="Package\Load Merchant Category Dimension\Load dim_merchant_category data.Inputs[Entrada de Destino OLE DB].Columns[id_merchant]"
+                      cachedCodepage="1252"
+                      cachedDataType="str"
+                      cachedLength="50"
+                      cachedName="id_merchant"
+                      externalMetadataColumnId="Package\Load Merchant Category Dimension\Load dim_merchant_category data.Inputs[Entrada de Destino OLE DB].ExternalColumns[id_merchant]"
+                      lineageId="Package\Load Merchant Category Dimension\Get transactions data.Outputs[Saída de Origem OLE DB].Columns[id_merchant]" />
+                  </inputColumns>
+                  <externalMetadataColumns
+                    isUsed="True">
+                    <externalMetadataColumn
+                      refId="Package\Load Merchant Category Dimension\Load dim_merchant_category data.Inputs[Entrada de Destino OLE DB].ExternalColumns[id_merchant]"
+                      codePage="1252"
+                      dataType="str"
+                      length="50"
+                      name="id_merchant" />
+                    <externalMetadataColumn
+                      refId="Package\Load Merchant Category Dimension\Load dim_merchant_category data.Inputs[Entrada de Destino OLE DB].ExternalColumns[category]"
+                      codePage="1252"
+                      dataType="str"
+                      length="50"
+                      name="category" />
+                  </externalMetadataColumns>
+                </input>
+              </inputs>
+              <outputs>
+                <output
+                  refId="Package\Load Merchant Category Dimension\Load dim_merchant_category data.Outputs[Saída de Erro de Destino OLE DB]"
+                  exclusionGroup="1"
+                  isErrorOut="true"
+                  name="Saída de Erro de Destino OLE DB"
+                  synchronousInputId="Package\Load Merchant Category Dimension\Load dim_merchant_category data.Inputs[Entrada de Destino OLE DB]">
+                  <outputColumns>
+                    <outputColumn
+                      refId="Package\Load Merchant Category Dimension\Load dim_merchant_category data.Outputs[Saída de Erro de Destino OLE DB].Columns[ErrorCode]"
+                      dataType="i4"
+                      lineageId="Package\Load Merchant Category Dimension\Load dim_merchant_category data.Outputs[Saída de Erro de Destino OLE DB].Columns[ErrorCode]"
+                      name="ErrorCode"
+                      specialFlags="1" />
+                    <outputColumn
+                      refId="Package\Load Merchant Category Dimension\Load dim_merchant_category data.Outputs[Saída de Erro de Destino OLE DB].Columns[ErrorColumn]"
+                      dataType="i4"
+                      lineageId="Package\Load Merchant Category Dimension\Load dim_merchant_category data.Outputs[Saída de Erro de Destino OLE DB].Columns[ErrorColumn]"
+                      name="ErrorColumn"
+                      specialFlags="2" />
+                  </outputColumns>
+                  <externalMetadataColumns />
+                </output>
+              </outputs>
+            </component>
+          </components>
+          <paths>
+            <path
+              refId="Package\Load Merchant Category Dimension.Paths[Saída de Origem OLE DB]"
+              endId="Package\Load Merchant Category Dimension\Load dim_merchant_category data.Inputs[Entrada de Destino OLE DB]"
+              name="Saída de Origem OLE DB"
+              startId="Package\Load Merchant Category Dimension\Get transactions data.Outputs[Saída de Origem OLE DB]" />
+          </paths>
+        </pipeline>
+      </DTS:ObjectData>
+    </DTS:Executable>
+    <DTS:Executable
+      DTS:refId="Package\Load Merchant Fact"
+      DTS:CreationName="Microsoft.Pipeline"
+      DTS:Description="Tarefa Fluxo de Dados"
+      DTS:DTSID="{C8EA74B6-9D82-430B-8347-FCB2BC04CF71}"
+      DTS:ExecutableType="Microsoft.Pipeline"
+      DTS:LocaleID="-1"
+      DTS:ObjectName="Load Merchant Fact"
+      DTS:TaskContact="Performs high-performance data extraction, transformation and loading;Microsoft Corporation; Microsoft SQL Server; (C) Microsoft Corporation; All Rights Reserved;http://www.microsoft.com/sql/support/default.asp;1">
+      <DTS:Variables />
+      <DTS:ObjectData>
+        <pipeline
+          version="1">
+          <components>
+            <component
+              refId="Package\Load Merchant Fact\Get transactions data"
+              componentClassID="Microsoft.OLEDBSource"
+              contactInfo="Origem OLE DB;Microsoft Corporation; Microsoft SQL Server; (C) Microsoft Corporation; Todos os Direitos Reservados; http://www.microsoft.com/sql/support;7"
+              description="Origem OLE DB"
+              name="Get transactions data"
+              usesDispositions="true"
+              version="7">
+              <properties>
+                <property
+                  dataType="System.Int32"
+                  description="O tempo em segundos antes que um comando expire. Zero indica uma expiração infinita."
+                  name="CommandTimeout">0</property>
+                <property
+                  dataType="System.String"
+                  description="Especifica o nome do objeto de banco de dados usado para abrir um conjunto de linhas."
+                  name="OpenRowset"></property>
+                <property
+                  dataType="System.String"
+                  description="Especifica a variável que contém o nome do objeto de banco de dados usado para abrir um conjunto de linhas."
+                  name="OpenRowsetVariable"></property>
+                <property
+                  dataType="System.String"
+                  description="O comando SQL a ser executado."
+                  name="SqlCommand"
+                  UITypeEditor="Microsoft.DataTransformationServices.Controls.ModalMultilineStringEditor">SELECT merchant AS id_merchant, fullDate AS data, CAST(SUM(amount) AS DECIMAL(18,2))  AS tpv, COUNT(DISTINCT id) AS qtd_transacoes
+FROM transactions
+GROUP BY fullDate, merchant</property>
+                <property
+                  dataType="System.String"
+                  description="A variável que contém o comando SQL a ser executado."
+                  name="SqlCommandVariable"></property>
+                <property
+                  dataType="System.Int32"
+                  description="Especifica a página de código de coluna a ser usada quando não há informações de página de código disponíveis a partir da fonte de dados."
+                  name="DefaultCodePage">1252</property>
+                <property
+                  dataType="System.Boolean"
+                  description="Forca o uso do valor da propriedade DefaultCodePage durante a descrição dos dados de caractere."
+                  name="AlwaysUseDefaultCodePage">false</property>
+                <property
+                  dataType="System.Int32"
+                  description="Especifica o modo usado para acessar o banco de dados."
+                  name="AccessMode"
+                  typeConverter="AccessMode">2</property>
+                <property
+                  dataType="System.String"
+                  description="Os mapeamentos entre os parâmetros no comando SQL e as variáveis."
+                  name="ParameterMapping"></property>
+              </properties>
+              <connections>
+                <connection
+                  refId="Package\Load Merchant Fact\Get transactions data.Connections[OleDbConnection]"
+                  connectionManagerID="Package.ConnectionManagers[CTNDELLBHDDJF3\SQLEXPRESS.db]"
+                  connectionManagerRefId="Package.ConnectionManagers[CTNDELLBHDDJF3\SQLEXPRESS.db]"
+                  description="A conexão de tempo de execução OLE DB usada para acessar o banco de dados."
+                  name="OleDbConnection" />
+              </connections>
+              <outputs>
+                <output
+                  refId="Package\Load Merchant Fact\Get transactions data.Outputs[Saída de Origem OLE DB]"
+                  name="Saída de Origem OLE DB">
+                  <outputColumns>
+                    <outputColumn
+                      refId="Package\Load Merchant Fact\Get transactions data.Outputs[Saída de Origem OLE DB].Columns[id_merchant]"
+                      codePage="1252"
+                      dataType="str"
+                      errorOrTruncationOperation="Conversão"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\Load Merchant Fact\Get transactions data.Outputs[Saída de Origem OLE DB].ExternalColumns[id_merchant]"
+                      length="50"
+                      lineageId="Package\Load Merchant Fact\Get transactions data.Outputs[Saída de Origem OLE DB].Columns[id_merchant]"
+                      name="id_merchant"
+                      truncationRowDisposition="FailComponent" />
+                    <outputColumn
+                      refId="Package\Load Merchant Fact\Get transactions data.Outputs[Saída de Origem OLE DB].Columns[data]"
+                      dataType="dbDate"
+                      errorOrTruncationOperation="Conversão"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\Load Merchant Fact\Get transactions data.Outputs[Saída de Origem OLE DB].ExternalColumns[data]"
+                      lineageId="Package\Load Merchant Fact\Get transactions data.Outputs[Saída de Origem OLE DB].Columns[data]"
+                      name="data"
+                      truncationRowDisposition="FailComponent" />
+                    <outputColumn
+                      refId="Package\Load Merchant Fact\Get transactions data.Outputs[Saída de Origem OLE DB].Columns[tpv]"
+                      dataType="r8"
+                      errorOrTruncationOperation="Conversão"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\Load Merchant Fact\Get transactions data.Outputs[Saída de Origem OLE DB].ExternalColumns[tpv]"
+                      lineageId="Package\Load Merchant Fact\Get transactions data.Outputs[Saída de Origem OLE DB].Columns[tpv]"
+                      name="tpv"
+                      truncationRowDisposition="FailComponent" />
+                    <outputColumn
+                      refId="Package\Load Merchant Fact\Get transactions data.Outputs[Saída de Origem OLE DB].Columns[qtd_transacoes]"
+                      dataType="i4"
+                      errorOrTruncationOperation="Conversão"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\Load Merchant Fact\Get transactions data.Outputs[Saída de Origem OLE DB].ExternalColumns[qtd_transacoes]"
+                      lineageId="Package\Load Merchant Fact\Get transactions data.Outputs[Saída de Origem OLE DB].Columns[qtd_transacoes]"
+                      name="qtd_transacoes"
+                      truncationRowDisposition="FailComponent" />
+                  </outputColumns>
+                  <externalMetadataColumns
+                    isUsed="True">
+                    <externalMetadataColumn
+                      refId="Package\Load Merchant Fact\Get transactions data.Outputs[Saída de Origem OLE DB].ExternalColumns[id_merchant]"
+                      codePage="1252"
+                      dataType="str"
+                      length="50"
+                      name="id_merchant" />
+                    <externalMetadataColumn
+                      refId="Package\Load Merchant Fact\Get transactions data.Outputs[Saída de Origem OLE DB].ExternalColumns[data]"
+                      dataType="dbDate"
+                      name="data" />
+                    <externalMetadataColumn
+                      refId="Package\Load Merchant Fact\Get transactions data.Outputs[Saída de Origem OLE DB].ExternalColumns[tpv]"
+                      dataType="numeric"
+                      name="tpv"
+                      precision="18"
+                      scale="2" />
+                    <externalMetadataColumn
+                      refId="Package\Load Merchant Fact\Get transactions data.Outputs[Saída de Origem OLE DB].ExternalColumns[qtd_transacoes]"
+                      dataType="i4"
+                      name="qtd_transacoes" />
+                  </externalMetadataColumns>
+                </output>
+                <output
+                  refId="Package\Load Merchant Fact\Get transactions data.Outputs[Saída de Erro de Origem OLE DB]"
+                  isErrorOut="true"
+                  name="Saída de Erro de Origem OLE DB">
+                  <outputColumns>
+                    <outputColumn
+                      refId="Package\Load Merchant Fact\Get transactions data.Outputs[Saída de Erro de Origem OLE DB].Columns[id_merchant]"
+                      codePage="1252"
+                      dataType="str"
+                      length="50"
+                      lineageId="Package\Load Merchant Fact\Get transactions data.Outputs[Saída de Erro de Origem OLE DB].Columns[id_merchant]"
+                      name="id_merchant" />
+                    <outputColumn
+                      refId="Package\Load Merchant Fact\Get transactions data.Outputs[Saída de Erro de Origem OLE DB].Columns[data]"
+                      dataType="dbDate"
+                      lineageId="Package\Load Merchant Fact\Get transactions data.Outputs[Saída de Erro de Origem OLE DB].Columns[data]"
+                      name="data" />
+                    <outputColumn
+                      refId="Package\Load Merchant Fact\Get transactions data.Outputs[Saída de Erro de Origem OLE DB].Columns[tpv]"
+                      dataType="numeric"
+                      lineageId="Package\Load Merchant Fact\Get transactions data.Outputs[Saída de Erro de Origem OLE DB].Columns[tpv]"
+                      name="tpv"
+                      precision="18"
+                      scale="2" />
+                    <outputColumn
+                      refId="Package\Load Merchant Fact\Get transactions data.Outputs[Saída de Erro de Origem OLE DB].Columns[qtd_transacoes]"
+                      dataType="i4"
+                      lineageId="Package\Load Merchant Fact\Get transactions data.Outputs[Saída de Erro de Origem OLE DB].Columns[qtd_transacoes]"
+                      name="qtd_transacoes" />
+                    <outputColumn
+                      refId="Package\Load Merchant Fact\Get transactions data.Outputs[Saída de Erro de Origem OLE DB].Columns[ErrorCode]"
+                      dataType="i4"
+                      lineageId="Package\Load Merchant Fact\Get transactions data.Outputs[Saída de Erro de Origem OLE DB].Columns[ErrorCode]"
+                      name="ErrorCode"
+                      specialFlags="1" />
+                    <outputColumn
+                      refId="Package\Load Merchant Fact\Get transactions data.Outputs[Saída de Erro de Origem OLE DB].Columns[ErrorColumn]"
+                      dataType="i4"
+                      lineageId="Package\Load Merchant Fact\Get transactions data.Outputs[Saída de Erro de Origem OLE DB].Columns[ErrorColumn]"
+                      name="ErrorColumn"
+                      specialFlags="2" />
+                  </outputColumns>
+                  <externalMetadataColumns />
+                </output>
+              </outputs>
+            </component>
+            <component
+              refId="Package\Load Merchant Fact\Load fact_merchant_kpi"
+              componentClassID="Microsoft.OLEDBDestination"
+              contactInfo="Destino OLE DB;Microsoft Corporation; Microsoft SQL Server; (C) Microsoft Corporation; Todos os Direitos Reservados; http://www.microsoft.com/sql/support;4"
+              description="Destino OLE DB"
+              name="Load fact_merchant_kpi"
+              usesDispositions="true"
+              version="4">
+              <properties>
+                <property
+                  dataType="System.Int32"
+                  description="O tempo em segundos antes que um comando expire. Zero indica uma expiração infinita."
+                  name="CommandTimeout">0</property>
+                <property
+                  dataType="System.String"
+                  description="Especifica o nome do objeto de banco de dados usado para abrir um conjunto de linhas."
+                  name="OpenRowset">[dbo].[fact_merchant_kpi]</property>
+                <property
+                  dataType="System.String"
+                  description="Especifica a variável que contém o nome do objeto de banco de dados usado para abrir um conjunto de linhas."
+                  name="OpenRowsetVariable"></property>
+                <property
+                  dataType="System.String"
+                  description="O comando SQL a ser executado."
+                  name="SqlCommand"
+                  UITypeEditor="Microsoft.DataTransformationServices.Controls.ModalMultilineStringEditor"></property>
+                <property
+                  dataType="System.Int32"
+                  description="Especifica a página de código de coluna a ser usada quando não há informações de página de código disponíveis a partir da fonte de dados."
+                  name="DefaultCodePage">1252</property>
+                <property
+                  dataType="System.Boolean"
+                  description="Forca o uso do valor da propriedade DefaultCodePage durante a descrição dos dados de caractere."
+                  name="AlwaysUseDefaultCodePage">false</property>
+                <property
+                  dataType="System.Int32"
+                  description="Especifica o modo usado para acessar o banco de dados."
+                  name="AccessMode"
+                  typeConverter="AccessMode">3</property>
+                <property
+                  dataType="System.Boolean"
+                  description="Indica se os valores fornecidos para colunas de identidade serão copiados no destino. Se false, os valores para colunas de identidade serão gerados automaticamente no destino. Aplicável apenas se o carregamento rápido estiver ativado."
+                  name="FastLoadKeepIdentity">false</property>
+                <property
+                  dataType="System.Boolean"
+                  description="Indica se as colunas que contêm null terão null inserido no destino. Se false, as colunas que contêm null terão seus valores padrão inseridos no destino. Aplicável apenas se o carregamento rápido estiver ativado."
+                  name="FastLoadKeepNulls">false</property>
+                <property
+                  dataType="System.String"
+                  description="Especifica as opções a serem usadas com o carregamento rápido. Aplicável apenas se o carregamento rápido estiver ativado."
+                  name="FastLoadOptions">TABLOCK,CHECK_CONSTRAINTS</property>
+                <property
+                  dataType="System.Int32"
+                  description="Especifica quando confirmações são emitidas durante a inserção de dados. Um valor de 0 especifica que uma confirmação será emitida ao final da inserção de dados. Aplicável somente se o carregamento rápido estiver ativado."
+                  name="FastLoadMaxInsertCommitSize">2147483647</property>
+              </properties>
+              <connections>
+                <connection
+                  refId="Package\Load Merchant Fact\Load fact_merchant_kpi.Connections[OleDbConnection]"
+                  connectionManagerID="Package.ConnectionManagers[CTNDELLBHDDJF3\SQLEXPRESS.analytic]"
+                  connectionManagerRefId="Package.ConnectionManagers[CTNDELLBHDDJF3\SQLEXPRESS.analytic]"
+                  description="A conexão de tempo de execução OLE DB usada para acessar o banco de dados."
+                  name="OleDbConnection" />
+              </connections>
+              <inputs>
+                <input
+                  refId="Package\Load Merchant Fact\Load fact_merchant_kpi.Inputs[Entrada de Destino OLE DB]"
+                  errorOrTruncationOperation="Inserir"
+                  errorRowDisposition="FailComponent"
+                  hasSideEffects="true"
+                  name="Entrada de Destino OLE DB">
+                  <inputColumns>
+                    <inputColumn
+                      refId="Package\Load Merchant Fact\Load fact_merchant_kpi.Inputs[Entrada de Destino OLE DB].Columns[id_merchant]"
+                      cachedCodepage="1252"
+                      cachedDataType="str"
+                      cachedLength="50"
+                      cachedName="id_merchant"
+                      externalMetadataColumnId="Package\Load Merchant Fact\Load fact_merchant_kpi.Inputs[Entrada de Destino OLE DB].ExternalColumns[id_merchant]"
+                      lineageId="Package\Load Merchant Fact\Get transactions data.Outputs[Saída de Origem OLE DB].Columns[id_merchant]" />
+                    <inputColumn
+                      refId="Package\Load Merchant Fact\Load fact_merchant_kpi.Inputs[Entrada de Destino OLE DB].Columns[data]"
+                      cachedDataType="dbDate"
+                      cachedName="data"
+                      externalMetadataColumnId="Package\Load Merchant Fact\Load fact_merchant_kpi.Inputs[Entrada de Destino OLE DB].ExternalColumns[data]"
+                      lineageId="Package\Load Merchant Fact\Get transactions data.Outputs[Saída de Origem OLE DB].Columns[data]" />
+                    <inputColumn
+                      refId="Package\Load Merchant Fact\Load fact_merchant_kpi.Inputs[Entrada de Destino OLE DB].Columns[tpv]"
+                      cachedDataType="r8"
+                      cachedName="tpv"
+                      externalMetadataColumnId="Package\Load Merchant Fact\Load fact_merchant_kpi.Inputs[Entrada de Destino OLE DB].ExternalColumns[tpv]"
+                      lineageId="Package\Load Merchant Fact\Get transactions data.Outputs[Saída de Origem OLE DB].Columns[tpv]" />
+                    <inputColumn
+                      refId="Package\Load Merchant Fact\Load fact_merchant_kpi.Inputs[Entrada de Destino OLE DB].Columns[qtd_transacoes]"
+                      cachedDataType="i4"
+                      cachedName="qtd_transacoes"
+                      externalMetadataColumnId="Package\Load Merchant Fact\Load fact_merchant_kpi.Inputs[Entrada de Destino OLE DB].ExternalColumns[qtd_transacoes]"
+                      lineageId="Package\Load Merchant Fact\Get transactions data.Outputs[Saída de Origem OLE DB].Columns[qtd_transacoes]" />
+                  </inputColumns>
+                  <externalMetadataColumns
+                    isUsed="True">
+                    <externalMetadataColumn
+                      refId="Package\Load Merchant Fact\Load fact_merchant_kpi.Inputs[Entrada de Destino OLE DB].ExternalColumns[id_merchant]"
+                      codePage="1252"
+                      dataType="str"
+                      length="50"
+                      name="id_merchant" />
+                    <externalMetadataColumn
+                      refId="Package\Load Merchant Fact\Load fact_merchant_kpi.Inputs[Entrada de Destino OLE DB].ExternalColumns[data]"
+                      dataType="dbDate"
+                      name="data" />
+                    <externalMetadataColumn
+                      refId="Package\Load Merchant Fact\Load fact_merchant_kpi.Inputs[Entrada de Destino OLE DB].ExternalColumns[tpv]"
+                      dataType="r8"
+                      name="tpv" />
+                    <externalMetadataColumn
+                      refId="Package\Load Merchant Fact\Load fact_merchant_kpi.Inputs[Entrada de Destino OLE DB].ExternalColumns[qtd_transacoes]"
+                      dataType="i4"
+                      name="qtd_transacoes" />
+                  </externalMetadataColumns>
+                </input>
+              </inputs>
+              <outputs>
+                <output
+                  refId="Package\Load Merchant Fact\Load fact_merchant_kpi.Outputs[Saída de Erro de Destino OLE DB]"
+                  exclusionGroup="1"
+                  isErrorOut="true"
+                  name="Saída de Erro de Destino OLE DB"
+                  synchronousInputId="Package\Load Merchant Fact\Load fact_merchant_kpi.Inputs[Entrada de Destino OLE DB]">
+                  <outputColumns>
+                    <outputColumn
+                      refId="Package\Load Merchant Fact\Load fact_merchant_kpi.Outputs[Saída de Erro de Destino OLE DB].Columns[ErrorCode]"
+                      dataType="i4"
+                      lineageId="Package\Load Merchant Fact\Load fact_merchant_kpi.Outputs[Saída de Erro de Destino OLE DB].Columns[ErrorCode]"
+                      name="ErrorCode"
+                      specialFlags="1" />
+                    <outputColumn
+                      refId="Package\Load Merchant Fact\Load fact_merchant_kpi.Outputs[Saída de Erro de Destino OLE DB].Columns[ErrorColumn]"
+                      dataType="i4"
+                      lineageId="Package\Load Merchant Fact\Load fact_merchant_kpi.Outputs[Saída de Erro de Destino OLE DB].Columns[ErrorColumn]"
+                      name="ErrorColumn"
+                      specialFlags="2" />
+                  </outputColumns>
+                  <externalMetadataColumns />
+                </output>
+              </outputs>
+            </component>
+          </components>
+          <paths>
+            <path
+              refId="Package\Load Merchant Fact.Paths[Saída de Origem OLE DB]"
+              endId="Package\Load Merchant Fact\Load fact_merchant_kpi.Inputs[Entrada de Destino OLE DB]"
+              name="Saída de Origem OLE DB"
+              startId="Package\Load Merchant Fact\Get transactions data.Outputs[Saída de Origem OLE DB]" />
+          </paths>
+        </pipeline>
+      </DTS:ObjectData>
+    </DTS:Executable>
+  </DTS:Executables>
+  <DTS:PrecedenceConstraints>
+    <DTS:PrecedenceConstraint
+      DTS:refId="Package.PrecedenceConstraints[Constraint]"
+      DTS:CreationName=""
+      DTS:DTSID="{8AEF9AFE-8F77-4B19-B8DA-B40C236601A5}"
+      DTS:From="Package\Load Merchant Category Dimension"
+      DTS:LogicalAnd="True"
+      DTS:ObjectName="Constraint"
+      DTS:To="Package\Load Customer Fact" />
+    <DTS:PrecedenceConstraint
+      DTS:refId="Package.PrecedenceConstraints[Constraint 1]"
+      DTS:CreationName=""
+      DTS:DTSID="{E0581A0B-FFDD-401B-8AAB-96CFD024AA9B}"
+      DTS:From="Package\Load Customer Fact"
+      DTS:LogicalAnd="True"
+      DTS:ObjectName="Constraint 1"
+      DTS:To="Package\Load Merchant Fact" />
+  </DTS:PrecedenceConstraints>
+  <DTS:DesignTimeProperties><![CDATA[<?xml version="1.0"?>
+<!--This CDATA section contains the layout information of the package. The section includes information such as (x,y) coordinates, width, and height.-->
+<!--If you manually edit this section and make a mistake, you can delete it. -->
+<!--The package will still be able to load normally but the previous layout information will be lost and the designer will automatically re-arrange the elements on the design surface.-->
+<Objects
+  Version="8">
+  <!--Each node below will contain properties that do not affect runtime behavior.-->
+  <Package
+    design-time-name="Package">
+    <LayoutInfo>
+      <GraphLayout
+        Capacity="8" xmlns="clr-namespace:Microsoft.SqlServer.IntegrationServices.Designer.Model.Serialization;assembly=Microsoft.SqlServer.IntegrationServices.Graph" xmlns:mssgle="clr-namespace:Microsoft.SqlServer.Graph.LayoutEngine;assembly=Microsoft.SqlServer.Graph" xmlns:assembly="http://schemas.microsoft.com/winfx/2006/xaml">
+        <NodeLayout
+          Size="178,42"
+          Id="Package\Load Customer Fact"
+          TopLeft="278,186" />
+        <NodeLayout
+          Size="255,42"
+          Id="Package\Load Merchant Category Dimension"
+          TopLeft="53,106" />
+        <NodeLayout
+          Size="177,42"
+          Id="Package\Load Merchant Fact"
+          TopLeft="63,263" />
+        <EdgeLayout
+          Id="Package.PrecedenceConstraints[Constraint]"
+          TopLeft="180.5,148">
+          <EdgeLayout.Curve>
+            <mssgle:Curve
+              StartConnector="{assembly:Null}"
+              EndConnector="186.5,38"
+              Start="0,0"
+              End="186.5,30.5">
+              <mssgle:Curve.Segments>
+                <mssgle:SegmentCollection
+                  Capacity="5">
+                  <mssgle:LineSegment
+                    End="0,15" />
+                  <mssgle:CubicBezierSegment
+                    Point1="0,15"
+                    Point2="0,19"
+                    Point3="4,19" />
+                  <mssgle:LineSegment
+                    End="182.5,19" />
+                  <mssgle:CubicBezierSegment
+                    Point1="182.5,19"
+                    Point2="186.5,19"
+                    Point3="186.5,23" />
+                  <mssgle:LineSegment
+                    End="186.5,30.5" />
+                </mssgle:SegmentCollection>
+              </mssgle:Curve.Segments>
+            </mssgle:Curve>
+          </EdgeLayout.Curve>
+          <EdgeLayout.Labels>
+            <EdgeLabelCollection />
+          </EdgeLayout.Labels>
+        </EdgeLayout>
+        <EdgeLayout
+          Id="Package.PrecedenceConstraints[Constraint 1]"
+          TopLeft="367,228">
+          <EdgeLayout.Curve>
+            <mssgle:Curve
+              StartConnector="{assembly:Null}"
+              EndConnector="-215.5,35"
+              Start="0,0"
+              End="-215.5,27.5">
+              <mssgle:Curve.Segments>
+                <mssgle:SegmentCollection
+                  Capacity="5">
+                  <mssgle:LineSegment
+                    End="0,13.5" />
+                  <mssgle:CubicBezierSegment
+                    Point1="0,13.5"
+                    Point2="0,17.5"
+                    Point3="-4,17.5" />
+                  <mssgle:LineSegment
+                    End="-211.5,17.5" />
+                  <mssgle:CubicBezierSegment
+                    Point1="-211.5,17.5"
+                    Point2="-215.5,17.5"
+                    Point3="-215.5,21.5" />
+                  <mssgle:LineSegment
+                    End="-215.5,27.5" />
+                </mssgle:SegmentCollection>
+              </mssgle:Curve.Segments>
+            </mssgle:Curve>
+          </EdgeLayout.Curve>
+          <EdgeLayout.Labels>
+            <EdgeLabelCollection />
+          </EdgeLayout.Labels>
+        </EdgeLayout>
+      </GraphLayout>
+    </LayoutInfo>
+  </Package>
+  <TaskHost
+    design-time-name="Package\Load Customer Fact">
+    <LayoutInfo>
+      <GraphLayout
+        Capacity="4" xmlns="clr-namespace:Microsoft.SqlServer.IntegrationServices.Designer.Model.Serialization;assembly=Microsoft.SqlServer.IntegrationServices.Graph" xmlns:mssgle="clr-namespace:Microsoft.SqlServer.Graph.LayoutEngine;assembly=Microsoft.SqlServer.Graph" xmlns:assembly="http://schemas.microsoft.com/winfx/2006/xaml">
+        <NodeLayout
+          Size="183,42"
+          Id="Package\Load Customer Fact\Get transactions data"
+          TopLeft="120,94" />
+        <NodeLayout
+          Size="220,42"
+          Id="Package\Load Customer Fact\Load fact_customer_kpi data"
+          TopLeft="268,213" />
+        <EdgeLayout
+          Id="Package\Load Customer Fact.Paths[Saída de Origem OLE DB]"
+          TopLeft="211.5,136">
+          <EdgeLayout.Curve>
+            <mssgle:Curve
+              StartConnector="{assembly:Null}"
+              EndConnector="166.5,77"
+              Start="0,0"
+              End="166.5,69.5">
+              <mssgle:Curve.Segments>
+                <mssgle:SegmentCollection
+                  Capacity="5">
+                  <mssgle:LineSegment
+                    End="0,34.5" />
+                  <mssgle:CubicBezierSegment
+                    Point1="0,34.5"
+                    Point2="0,38.5"
+                    Point3="4,38.5" />
+                  <mssgle:LineSegment
+                    End="162.5,38.5" />
+                  <mssgle:CubicBezierSegment
+                    Point1="162.5,38.5"
+                    Point2="166.5,38.5"
+                    Point3="166.5,42.5" />
+                  <mssgle:LineSegment
+                    End="166.5,69.5" />
+                </mssgle:SegmentCollection>
+              </mssgle:Curve.Segments>
+            </mssgle:Curve>
+          </EdgeLayout.Curve>
+          <EdgeLayout.Labels>
+            <EdgeLabelCollection />
+          </EdgeLayout.Labels>
+        </EdgeLayout>
+      </GraphLayout>
+    </LayoutInfo>
+  </TaskHost>
+  <PipelineComponentMetadata
+    design-time-name="Package\Load Customer Fact\Get transactions data">
+    <Properties>
+      <Property>
+        <Name>DataSourceViewID</Name>
+      </Property>
+      <Property>
+        <Name>TableInfoObjectType</Name>
+        <Value
+          type="q2:string">Table</Value>
+      </Property>
+    </Properties>
+  </PipelineComponentMetadata>
+  <PipelineComponentMetadata
+    design-time-name="Package\Load Customer Fact\Load fact_customer_kpi data">
+    <Properties>
+      <Property>
+        <Name>DataSourceViewID</Name>
+      </Property>
+      <Property>
+        <Name>TableInfoObjectType</Name>
+        <Value
+          type="q2:string">Table</Value>
+      </Property>
+    </Properties>
+  </PipelineComponentMetadata>
+  <TaskHost
+    design-time-name="Package\Load Merchant Category Dimension">
+    <LayoutInfo>
+      <GraphLayout
+        Capacity="4" xmlns="clr-namespace:Microsoft.SqlServer.IntegrationServices.Designer.Model.Serialization;assembly=Microsoft.SqlServer.IntegrationServices.Graph" xmlns:mssgle="clr-namespace:Microsoft.SqlServer.Graph.LayoutEngine;assembly=Microsoft.SqlServer.Graph" xmlns:assembly="http://schemas.microsoft.com/winfx/2006/xaml">
+        <NodeLayout
+          Size="249,42"
+          Id="Package\Load Merchant Category Dimension\Load dim_merchant_category data"
+          TopLeft="292.5,211.5" />
+        <NodeLayout
+          Size="183,42"
+          Id="Package\Load Merchant Category Dimension\Get transactions data"
+          TopLeft="135.5,93.5" />
+        <EdgeLayout
+          Id="Package\Load Merchant Category Dimension.Paths[Saída de Origem OLE DB]"
+          TopLeft="227,135.5">
+          <EdgeLayout.Curve>
+            <mssgle:Curve
+              StartConnector="{assembly:Null}"
+              EndConnector="190,76"
+              Start="0,0"
+              End="190,68.5">
+              <mssgle:Curve.Segments>
+                <mssgle:SegmentCollection
+                  Capacity="5">
+                  <mssgle:LineSegment
+                    End="0,34" />
+                  <mssgle:CubicBezierSegment
+                    Point1="0,34"
+                    Point2="0,38"
+                    Point3="4,38" />
+                  <mssgle:LineSegment
+                    End="186,38" />
+                  <mssgle:CubicBezierSegment
+                    Point1="186,38"
+                    Point2="190,38"
+                    Point3="190,42" />
+                  <mssgle:LineSegment
+                    End="190,68.5" />
+                </mssgle:SegmentCollection>
+              </mssgle:Curve.Segments>
+            </mssgle:Curve>
+          </EdgeLayout.Curve>
+          <EdgeLayout.Labels>
+            <EdgeLabelCollection />
+          </EdgeLayout.Labels>
+        </EdgeLayout>
+      </GraphLayout>
+    </LayoutInfo>
+  </TaskHost>
+  <PipelineComponentMetadata
+    design-time-name="Package\Load Merchant Category Dimension\Get transactions data">
+    <Properties>
+      <Property>
+        <Name>DataSourceViewID</Name>
+      </Property>
+    </Properties>
+  </PipelineComponentMetadata>
+  <PipelineComponentMetadata
+    design-time-name="Package\Load Merchant Category Dimension\Load dim_merchant_category data">
+    <Properties>
+      <Property>
+        <Name>DataSourceViewID</Name>
+      </Property>
+      <Property>
+        <Name>TableInfoObjectType</Name>
+        <Value
+          type="q2:string">Table</Value>
+      </Property>
+    </Properties>
+  </PipelineComponentMetadata>
+  <TaskHost
+    design-time-name="Package\Load Merchant Fact">
+    <LayoutInfo>
+      <GraphLayout
+        Capacity="4" xmlns="clr-namespace:Microsoft.SqlServer.IntegrationServices.Designer.Model.Serialization;assembly=Microsoft.SqlServer.IntegrationServices.Graph" xmlns:mssgle="clr-namespace:Microsoft.SqlServer.Graph.LayoutEngine;assembly=Microsoft.SqlServer.Graph" xmlns:assembly="http://schemas.microsoft.com/winfx/2006/xaml">
+        <NodeLayout
+          Size="183,42"
+          Id="Package\Load Merchant Fact\Get transactions data"
+          TopLeft="110,98" />
+        <NodeLayout
+          Size="196,42"
+          Id="Package\Load Merchant Fact\Load fact_merchant_kpi"
+          TopLeft="299,227" />
+        <EdgeLayout
+          Id="Package\Load Merchant Fact.Paths[Saída de Origem OLE DB]"
+          TopLeft="201.5,140">
+          <EdgeLayout.Curve>
+            <mssgle:Curve
+              StartConnector="{assembly:Null}"
+              EndConnector="195.5,87"
+              Start="0,0"
+              End="195.5,79.5">
+              <mssgle:Curve.Segments>
+                <mssgle:SegmentCollection
+                  Capacity="5">
+                  <mssgle:LineSegment
+                    End="0,39.5" />
+                  <mssgle:CubicBezierSegment
+                    Point1="0,39.5"
+                    Point2="0,43.5"
+                    Point3="4,43.5" />
+                  <mssgle:LineSegment
+                    End="191.5,43.5" />
+                  <mssgle:CubicBezierSegment
+                    Point1="191.5,43.5"
+                    Point2="195.5,43.5"
+                    Point3="195.5,47.5" />
+                  <mssgle:LineSegment
+                    End="195.5,79.5" />
+                </mssgle:SegmentCollection>
+              </mssgle:Curve.Segments>
+            </mssgle:Curve>
+          </EdgeLayout.Curve>
+          <EdgeLayout.Labels>
+            <EdgeLabelCollection />
+          </EdgeLayout.Labels>
+        </EdgeLayout>
+      </GraphLayout>
+    </LayoutInfo>
+  </TaskHost>
+  <PipelineComponentMetadata
+    design-time-name="Package\Load Merchant Fact\Get transactions data">
+    <Properties>
+      <Property>
+        <Name>DataSourceViewID</Name>
+      </Property>
+    </Properties>
+  </PipelineComponentMetadata>
+  <PipelineComponentMetadata
+    design-time-name="Package\Load Merchant Fact\Load fact_merchant_kpi">
+    <Properties>
+      <Property>
+        <Name>DataSourceViewID</Name>
+      </Property>
+      <Property>
+        <Name>TableInfoObjectType</Name>
+        <Value
+          type="q2:string">Table</Value>
+      </Property>
+    </Properties>
+  </PipelineComponentMetadata>
+</Objects>]]></DTS:DesignTimeProperties>
+</DTS:Executable>
